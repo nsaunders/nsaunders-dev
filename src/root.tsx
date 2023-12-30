@@ -19,6 +19,7 @@ export default component$(() => {
   return (
     <QwikCityProvider>
       <head>
+        <script>{`(function() { var t = localStorage.getItem("theme"); if (t === "dark" || t  === "light") document.documentElement.setAttribute("data-theme", t) })()`}</script>
         <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.json" />
         <RouterHead />
