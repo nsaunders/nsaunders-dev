@@ -29,6 +29,9 @@ export default component$(() => {
           fontFamily: "'Montserrat Variable'",
           textTransform: "uppercase",
           fontSize: "1.6em",
+          "@media (width < 640px)": {
+            fontSize: 0,
+          },
         })}
         selected
       >
