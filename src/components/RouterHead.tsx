@@ -11,7 +11,23 @@ export default component$(() => {
 
       <link rel="canonical" href={loc.url.href} />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/icons/apple-touch-icon.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/icons/icon-32x32.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/icons/icon-16x16.png"
+      />
 
       {head.meta.map((m) => (
         <meta key={m.key} {...m} />

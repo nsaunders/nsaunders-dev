@@ -4,7 +4,7 @@ import { recommended } from "@css-hooks/recommended";
 export const [hooks, css] = createHooks({
   ...recommended({
     breakpoints: ["640px"],
-    pseudoClasses: [":focus-visible"],
+    pseudoClasses: [":active", ":focus-visible", ":hover"],
   }),
   ".group:hover &": ".group:hover &",
   "@media (prefers-color-scheme: dark)": {
