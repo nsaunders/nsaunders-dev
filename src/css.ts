@@ -6,6 +6,7 @@ export const [hooks, css] = createHooks({
     breakpoints: ["640px"],
     pseudoClasses: [":active", ":focus-visible", ":hover"],
   }),
+  "&.selected": "&.selected",
   ".group:hover &": ".group:hover &",
   "@media (prefers-color-scheme: dark)": {
     or: [
