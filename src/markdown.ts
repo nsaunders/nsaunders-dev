@@ -46,7 +46,8 @@ async function getRenderer(): Promise<RendererObject> {
         return `<div style="${renderToString(
           css({
             overflow: "auto",
-            background: V.gray05,
+            background: V.white,
+            boxShadow: `inset 0 0 0 1px ${V.gray20}`,
             "@media (prefers-color-scheme: dark)": { background: V.gray85 },
           })
         )}">${codeToHtml(code, {
