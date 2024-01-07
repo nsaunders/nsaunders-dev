@@ -14,48 +14,49 @@ type Props = Omit<PropsOf<typeof Link>, "style"> & {
   style?: CSSProperties;
 };
 
-export default component$(
-  ({ class: className, selected, style, ...linkProps }: Props) => (
-    <Link
-      {...linkProps}
-      class={clsx(className, selected && "selected")}
-      style={{
-        ...css({
-          color: V.blue40,
-          textDecoration: "inherit",
-          outlineWidth: 0,
-          outlineStyle: "solid",
-          outlineColor: V.blue20,
-          outlineOffset: "2px",
-          borderRadius: "2px",
-          "&:hover": {
-            color: V.blue50,
-            textDecoration: "underline",
-          },
-          "&:active": {
-            color: V.red50,
-          },
-          "@media (prefers-color-scheme: dark)": {
-            color: V.blue30,
-            outlineColor: V.blue50,
-            "&:hover": {
-              color: V.blue20,
-            },
-            "&:active": {
-              color: V.red20,
-            },
-          },
-          "&:focus-visible": {
-            outlineWidth: "2px",
-          },
-          "&.selected": {
-            color: "inherit",
-          },
-        }),
-        ...style,
-      }}
-    >
-      <Slot />
-    </Link>
-  )
-);
+export const style = ({ style: overrides = {} }: Props = {}) =>
+  css(
+    {
+      color: V.blue40,
+      textDecoration: "inherit",
+      outlineWidth: 0,
+      outlineStyle: "solid",
+      outlineColor: V.blue20,
+      outlineOffset: "2px",
+      borderRadius: "2px",
+      "&:hover": {
+        color: V.blue50,
+        textDecoration: "underline",
+      },
+      "&:active": {
+        color: V.red50,
+      },
+      "@media (prefers-color-scheme: dark)": {
+        color: V.blue30,
+        outlineColor: V.blue50,
+        "&:hover": {
+          color: V.blue20,
+        },
+        "&:active": {
+          color: V.red20,
+        },
+      },
+      "&:focus-visible": {
+        outlineWidth: "2px",
+      },
+      "&.selected": {
+        color: "inherit",
+      },
+    },
+    overrides
+  );
+
+export default component$((props: Props) => (
+  <Link
+    {...props}
+    class={clsx(props.class, props.selected && "selected")}
+    style={style(props)}
+  >
+    <Slot />
+  </Link>
+));

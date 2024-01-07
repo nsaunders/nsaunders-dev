@@ -1,5 +1,9 @@
-import { createHooks } from "@css-hooks/qwik";
+import type { CSSProperties } from "@builder.io/qwik";
+import { stringifyValue } from "@css-hooks/qwik";
 import { recommended } from "@css-hooks/recommended";
+import { buildHooksSystem } from "./css-hooks-core";
+
+const createHooks = buildHooksSystem<CSSProperties>(stringifyValue);
 
 export const [hooks, css] = createHooks({
   ...recommended({
@@ -25,3 +29,15 @@ export const [hooks, css] = createHooks({
     ],
   },
 });
+
+export function renderToString(obj: Parameters<typeof css>[0]) {
+  return Object.entries(css(obj))
+    .map(
+      ([k, v]) =>
+        `${k.replace(/[A-Z]/g, (x) => `-${x.toLowerCase()}`)}:${stringifyValue(
+          k,
+          v
+        )}`
+    )
+    .join(";");
+}

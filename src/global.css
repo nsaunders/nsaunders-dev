@@ -1,2 +1,21 @@
 @import "@fontsource-variable/montserrat";
 @import "@fontsource-variable/onest";
+@import "@fontsource-variable/inconsolata";
+
+.shiki {
+  padding: 1em 1.25em;
+}
+
+.shiki,
+.shiki span {
+  font-family: "Inconsolata Variable", monospace !important;
+  color: var(--hook-light, var(--shiki-light))
+    var(--hook-dark, var(--shiki-dark)) !important;
+  background-color: transparent !important;
+  font-style: var(--hook-light, var(--shiki-light-font-style))
+    var(--hook-dark, var(--shiki-dark-font-style)) !important;
+  font-weight: var(--hook-light, var(--shiki-light-font-weight))
+    var(--hook-dark, var(--shiki-dark-font-weight)) !important;
+  text-decoration: var(--hook-light, var(--shiki-light-text-decoration))
+    var(--hook-dark, var(--shiki-dark-text-decoration)) !important;
+}
