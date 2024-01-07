@@ -10,7 +10,6 @@ export default component$(() => (
     <div
       style={css({
         margin: 0,
-        overflow: "hidden",
         display: "inline-flex",
         position: "relative",
         width: "3em",
@@ -81,6 +80,7 @@ export default component$(() => (
       <select
         id={Theme.switcherId}
         style={css({
+          maxWidth: "100%",
           zIndex: 1,
           appearance: "none",
           background: "transparent",
@@ -92,6 +92,10 @@ export default component$(() => (
           outlineStyle: "solid",
           outlineWidth: 0,
           outlineOffset: "2px",
+          outlineColor: V.blue20,
+          "@media (prefers-color-scheme: dark)": {
+            outlineColor: V.blue50,
+          },
           "&:focus-visible": {
             outlineWidth: "2px",
           },
