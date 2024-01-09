@@ -1,11 +1,11 @@
 import { component$ } from "@builder.io/qwik";
 import * as V from "varsace";
 import { css } from "~/css";
-import ThemeSwitcher from "./ThemeSwitcher";
-import AnchorLink from "./AnchorLink";
+import { ThemeSwitcher } from "./theme-switcher";
+import { AnchorLink } from "./anchor-link";
 import { useLocation } from "@builder.io/qwik-city";
 
-export default component$(() => {
+export const PageHeader = component$(() => {
   const {
     url: { pathname },
   } = useLocation();

@@ -6,16 +6,15 @@ import {
 } from "@builder.io/qwik-city";
 import * as V from "varsace";
 import readingTime from "reading-time";
-import BlockSection from "~/components/BlockSection";
-import Jumbotron from "~/components/Jumbotron";
+import { BlockSection } from "~/components/block-section";
+import { Jumbotron } from "~/components/jumbotron";
 import * as Markdown from "~/markdown";
 import * as Posts from "~/data/posts";
 import { css } from "~/css";
-import CalendarIcon from "~/components/CalendarIcon";
-import ClockIcon from "~/components/ClockIcon";
-import ScreenReaderOnly from "~/components/ScreenReaderOnly";
-import LabelValuePair from "~/components/LabelValuePair";
-import AnchorLink from "~/components/AnchorLink";
+import * as Icon from "~/components/icons";
+import { ScreenReaderOnly } from "~/components/screen-reader-only";
+import { LabelValuePair } from "~/components/label-value-pair";
+import { AnchorLink } from "~/components/anchor-link";
 
 export const usePost = routeLoader$(async (requestEvent) => {
   const { content, ...rest } = await Posts.get(requestEvent.params.name);
@@ -193,7 +192,7 @@ export default component$(() => {
         >
           <LabelValuePair>
             <div q:slot="label" style={{ display: "contents" }}>
-              <CalendarIcon aria-hidden />
+              <Icon.Calendar aria-hidden />
               <ScreenReaderOnly>Posted date</ScreenReaderOnly>
             </div>
             <span q:slot="value">
@@ -206,7 +205,7 @@ export default component$(() => {
           </LabelValuePair>
           <LabelValuePair>
             <div q:slot="label" style={{ display: "contents" }}>
-              <ClockIcon aria-hidden />
+              <Icon.Clock aria-hidden />
               <ScreenReaderOnly>Reading time</ScreenReaderOnly>
             </div>
             <span q:slot="value">

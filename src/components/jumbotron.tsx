@@ -1,9 +1,9 @@
 import * as V from "varsace";
 import { css } from "~/css";
-import BlockSection from "./BlockSection";
+import { BlockSection } from "./block-section";
 import { Slot, component$ } from "@builder.io/qwik";
 
-export default component$(() => (
+export const Jumbotron = component$(() => (
   <section
     style={css({
       background: V.gray05,

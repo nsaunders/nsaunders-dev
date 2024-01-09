@@ -1,11 +1,11 @@
 import { type CSSProperties, component$ } from "@builder.io/qwik";
 import * as V from "varsace";
 import { css } from "~/css";
-import AnchorLink from "./AnchorLink";
+import { AnchorLink } from "./anchor-link";
 
-export type Props = { style?: CSSProperties };
+type Props = { style?: CSSProperties };
 
-export default component$(({ style }: Props) => (
+export const PageFooter = component$(({ style }: Props) => (
   <footer
     style={{
       ...css({

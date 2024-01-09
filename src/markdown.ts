@@ -3,7 +3,7 @@ import { getHighlighter } from "shikiji";
 import slug from "slug";
 import { css, renderToString } from "~/css";
 import * as V from "varsace";
-import * as AnchorLink from "~/components/AnchorLink";
+import { anchorLinkStyle } from "~/components/anchor-link";
 
 const languages = [
   "css",
@@ -47,7 +47,9 @@ async function getRenderer(): Promise<RendererObject> {
           css({
             overflow: "auto",
             background: V.white,
-            boxShadow: `inset 0 0 0 1px ${V.gray20}`,
+            "@media (prefers-color-scheme: light)": {
+              boxShadow: `inset 0 0 0 1px ${V.gray20}`,
+            },
             "@media (prefers-color-scheme: dark)": { background: V.gray85 },
           })
         )}">${codeToHtml(code, {
@@ -129,7 +131,7 @@ async function getRenderer(): Promise<RendererObject> {
     link(href, title, label) {
       return `<a href="${href}"${
         title ? ` title="${title}"` : ""
-      } style="${renderToString(AnchorLink.style())}">${label}</a>`;
+      } style="${renderToString(anchorLinkStyle())}">${label}</a>`;
     },
   };
 }

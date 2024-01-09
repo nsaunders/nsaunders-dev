@@ -4,7 +4,7 @@ export type Props = {
   style?: CSSProperties;
 };
 
-export default component$(({ style }: Props) => (
+export const BlockSection = component$(({ style }: Props) => (
   <div
     style={{
       width: "calc(100% - 64px)",

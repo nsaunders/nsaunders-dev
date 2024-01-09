@@ -2,10 +2,9 @@ import { component$ } from "@builder.io/qwik";
 import * as V from "varsace";
 import { css } from "~/css";
 import * as Theme from "~/theme";
-import MoonIcon from "./MoonIcon";
-import SunIcon from "./SunIcon";
+import * as Icon from "./icons";
 
-export default component$(() => (
+export const ThemeSwitcher = component$(() => (
   <div style={{ display: "inline-flex" }}>
     <div
       style={css({
@@ -53,7 +52,7 @@ export default component$(() => (
             },
           })}
         >
-          <MoonIcon />
+          <Icon.Moon />
         </div>
         <div
           style={css({
@@ -64,7 +63,7 @@ export default component$(() => (
             },
           })}
         >
-          <SunIcon />
+          <Icon.Sun />
         </div>
         <div
           style={css({

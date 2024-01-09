@@ -1,11 +1,11 @@
 import { Slot, component$, type CSSProperties } from "@builder.io/qwik";
 import { css } from "~/css";
 
-export type Props = {
+type Props = {
   style?: CSSProperties;
 };
 
-export default component$(({ style }: Props) => (
+export const ScreenReaderOnly = component$(({ style }: Props) => (
   <div
     style={css(
       {
