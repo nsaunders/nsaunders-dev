@@ -1,12 +1,14 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { routeLoader$, z } from "@builder.io/qwik-city";
 import * as Markdown from "~/markdown";
 import * as Pages from "~/data/pages";
 import { Jumbotron } from "~/components/jumbotron";
 import { BlockSection } from "~/components/block-section";
 
-export const usePage = routeLoader$(async () => {
-  const page = await Pages.getByName("about");
+export const usePage = routeLoader$(async ({ env }) => {
+  const page = await Pages.getByName("about", {
+    accessToken: z.string().parse(env.get("GH_ACCESS_TOKEN")),
+  });
   const html = await Markdown.render(page.markdown);
   return { ...page, html };
 });

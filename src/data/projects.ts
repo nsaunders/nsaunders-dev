@@ -13,8 +13,10 @@ const projectSchema = z.object({
   forks: z.number(),
 });
 
-export async function list() {
-  const res = await fetch(`https://github.com/${username}`);
+export async function list({ accessToken }: { accessToken: string }) {
+  const res = await fetch(`https://github.com/${username}`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
   const $ = cheerio.load(await res.text());
   return $(".pinned-item-list-item-content")
     .map(function () {
@@ -48,15 +50,18 @@ export async function list() {
     .toArray();
 }
 
-export async function getFeatured() {
-  const projects = await list();
-  const stories = await listStories();
+export async function getFeatured({ accessToken }: { accessToken: string }) {
+  const projects = await list({ accessToken });
+  const stories = await listStories({ accessToken });
   const project = projects.find((p) =>
     stories.some((s) => p.owner === s.owner && p.name === s.name)
   );
   if (project) {
     const res = await fetch(
-      `https://raw.githubusercontent.com/nsaunders/writing/master/projects/${project.owner}/${project.name}.md`
+      `https://raw.githubusercontent.com/nsaunders/writing/master/projects/${project.owner}/${project.name}.md`,
+      {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      }
     );
     if (!res.ok) {
       throw new Error(
@@ -68,9 +73,10 @@ export async function getFeatured() {
   }
 }
 
-async function listStories() {
+async function listStories({ accessToken }: { accessToken: string }) {
   const res = await fetch(
-    `https://api.github.com/repos/${username}/writing/git/trees/master?recursive=true`
+    `https://api.github.com/repos/${username}/writing/git/trees/master?recursive=true`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
   );
   const json = await res.json();
 

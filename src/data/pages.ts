@@ -1,8 +1,12 @@
 const username = "nsaunders";
 
-export async function getByName(name: string) {
+export async function getByName(
+  name: string,
+  { accessToken }: { accessToken: string }
+) {
   const res = await fetch(
-    `https://raw.githubusercontent.com/${username}/writing/master/pages/${name}/index.md`
+    `https://raw.githubusercontent.com/${username}/writing/master/pages/${name}/index.md`,
+    { headers: { Authorization: `Bearer ${accessToken}` } }
   );
   if (!res.ok) {
     throw new Error(

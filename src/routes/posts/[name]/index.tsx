@@ -17,7 +17,9 @@ import { LabelValuePair } from "~/components/label-value-pair";
 import { Anchor } from "~/components/anchor";
 
 export const usePost = routeLoader$(async (requestEvent) => {
-  const post = await Posts.getByName(requestEvent.params.name);
+  const post = await Posts.getByName(requestEvent.params.name, {
+    accessToken: z.string().parse(requestEvent.env.get("GH_ACCESS_TOKEN")),
+  });
   return {
     ...post,
     html: await Markdown.render(post.markdown),

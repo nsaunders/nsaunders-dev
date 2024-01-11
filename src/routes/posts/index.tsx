@@ -1,5 +1,5 @@
 import { Fragment, component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { routeLoader$, z } from "@builder.io/qwik-city";
 import * as Posts from "~/data/posts";
 import * as V from "varsace";
 import { css } from "~/css";
@@ -8,7 +8,12 @@ import { ListItemEmphasis } from "~/components/list-item-emphasis";
 import { ListLayout } from "~/components/list-layout";
 import { BlockSection } from "~/components/block-section";
 
-export const usePosts = routeLoader$(Posts.listWithDetails);
+export const usePosts = routeLoader$(
+  async ({ env }) =>
+    await Posts.listWithDetails({
+      accessToken: z.string().parse(env.get("GH_ACCESS_TOKEN")),
+    })
+);
 
 export default component$(() => {
   const posts = usePosts();
