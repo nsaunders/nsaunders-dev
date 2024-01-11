@@ -2,6 +2,10 @@
 @import "@fontsource-variable/onest";
 @import "@fontsource-variable/inconsolata";
 
+html {
+  overflow-y: scroll;
+}
+
 .shiki {
   padding: 1em 1.25em;
 }
