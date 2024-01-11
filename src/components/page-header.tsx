@@ -2,7 +2,7 @@ import { component$ } from "@builder.io/qwik";
 import * as V from "varsace";
 import { css } from "~/css";
 import { ThemeSwitcher } from "./theme-switcher";
-import { AnchorLink } from "./anchor-link";
+import { Anchor } from "./anchor";
 import { useLocation } from "@builder.io/qwik-city";
 
 export const PageHeader = component$(() => {
@@ -23,7 +23,7 @@ export const PageHeader = component$(() => {
         },
       })}
     >
-      <AnchorLink
+      <Anchor
         href="/"
         style={css({
           fontFamily: "'Montserrat Variable'",
@@ -55,7 +55,7 @@ export const PageHeader = component$(() => {
         >
           Nick Saunders
         </span>
-      </AnchorLink>
+      </Anchor>
       <div style={{ flex: 1 }} />
       <>
         {(
@@ -65,13 +65,9 @@ export const PageHeader = component$(() => {
             ["/about", "About"],
           ] as const
         ).map(([href, label]) => (
-          <AnchorLink
-            key={href}
-            href={href}
-            selected={pathname.startsWith(href)}
-          >
+          <Anchor key={href} href={href} selected={pathname.startsWith(href)}>
             {label}
-          </AnchorLink>
+          </Anchor>
         ))}
       </>
       <hr

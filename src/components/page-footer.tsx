@@ -1,7 +1,7 @@
 import { type CSSProperties, component$ } from "@builder.io/qwik";
 import * as V from "varsace";
 import { css } from "~/css";
-import { AnchorLink } from "./anchor-link";
+import { Anchor } from "./anchor";
 
 type Props = { style?: CSSProperties };
 
@@ -20,12 +20,10 @@ export const PageFooter = component$(({ style }: Props) => (
       ...style,
     }}
   >
-    <AnchorLink href="https://x.com/agilecoder">X</AnchorLink>
-    <AnchorLink href="https://github.com/nsaunders">GitHub</AnchorLink>
-    <AnchorLink href="https://linkedin.com/in/nicksaunders">
-      LinkedIn
-    </AnchorLink>
+    <Anchor href="https://x.com/agilecoder">X</Anchor>
+    <Anchor href="https://github.com/nsaunders">GitHub</Anchor>
+    <Anchor href="https://linkedin.com/in/nicksaunders">LinkedIn</Anchor>
     <div style={{ flex: 1 }} />
-    <AnchorLink href="/rss.xml">RSS</AnchorLink>
+    <Anchor href="/rss.xml">RSS</Anchor>
   </footer>
 ));

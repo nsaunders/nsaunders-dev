@@ -13,7 +13,7 @@ type Props = Omit<PropsOf<"a">, "style"> & {
   style?: CSSProperties;
 };
 
-export const anchorLinkStyle = ({ style: overrides = {} }: Props = {}) =>
+export const anchorStyle = ({ style: overrides = {} }: Props = {}) =>
   css(
     {
       color: V.blue40,
@@ -50,11 +50,11 @@ export const anchorLinkStyle = ({ style: overrides = {} }: Props = {}) =>
     overrides
   );
 
-export const AnchorLink = component$((props: Props) => (
+export const Anchor = component$((props: Props) => (
   <a
     {...props}
     class={clsx(props.class, props.selected && "selected")}
-    style={anchorLinkStyle(props)}
+    style={anchorStyle(props)}
   >
     <Slot />
   </a>

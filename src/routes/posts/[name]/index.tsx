@@ -14,7 +14,7 @@ import { css } from "~/css";
 import * as Icon from "~/components/icons";
 import { ScreenReaderOnly } from "~/components/screen-reader-only";
 import { LabelValuePair } from "~/components/label-value-pair";
-import { AnchorLink } from "~/components/anchor-link";
+import { Anchor } from "~/components/anchor";
 
 export const usePost = routeLoader$(async (requestEvent) => {
   const post = await Posts.getByName(requestEvent.params.name);
@@ -210,11 +210,9 @@ export default component$(() => {
           dangerouslySetInnerHTML={post.value.html}
         />
         <div style={{ display: "flex", gap: "0.5em", marginBlockStart: "2em" }}>
-          <AnchorLink href={post.value.discussionHref}>
-            Discuss this post
-          </AnchorLink>
+          <Anchor href={post.value.discussionHref}>Discuss this post</Anchor>
           <span style={{ color: V.gray50 }}>|</span>
-          <AnchorLink href={post.value.editHref}>Suggest an edit</AnchorLink>
+          <Anchor href={post.value.editHref}>Suggest an edit</Anchor>
         </div>
       </BlockSection>
       <BlockSection>

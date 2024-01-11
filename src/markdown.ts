@@ -3,7 +3,7 @@ import { getHighlighter } from "shikiji";
 import slug from "slug";
 import { css, renderToString } from "~/css";
 import * as V from "varsace";
-import { anchorLinkStyle } from "~/components/anchor-link";
+import { anchorStyle } from "~/components/anchor";
 
 const languages = [
   "css",
@@ -131,7 +131,7 @@ async function getRenderer(): Promise<RendererObject> {
     link(href, title, label) {
       return `<a href="${href}"${
         title ? ` title="${title}"` : ""
-      } style="${renderToString(anchorLinkStyle())}">${label}</a>`;
+      } style="${renderToString(anchorStyle())}">${label}</a>`;
     },
   };
 }

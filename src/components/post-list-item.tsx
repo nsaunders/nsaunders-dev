@@ -2,7 +2,7 @@ import * as V from "varsace";
 import type * as Posts from "~/data/posts";
 import { css } from "~/css";
 import readingTime from "reading-time";
-import { AnchorLink } from "./anchor-link";
+import { Anchor } from "./anchor";
 import { component$ } from "@builder.io/qwik";
 
 export const PostListItem = component$(
@@ -40,9 +40,9 @@ export const PostListItem = component$(
         </span>
         <span>{`${Math.ceil(readingTime(markdown).minutes)} minutes`}</span>
       </div>
-      <AnchorLink href={`/posts/${name}`} style={{ fontSize: "2em" }}>
+      <Anchor href={`/posts/${name}`} style={{ fontSize: "2em" }}>
         {title}
-      </AnchorLink>
+      </Anchor>
       <div style={{ lineHeight: 1.5 }}>{description}</div>
     </div>
   )

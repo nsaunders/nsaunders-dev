@@ -1,7 +1,7 @@
 import { Slot, component$ } from "@builder.io/qwik";
 import { css } from "~/css";
 import type * as Projects from "~/data/projects";
-import { AnchorLink } from "./anchor-link";
+import { Anchor } from "./anchor";
 import * as Icon from "~/components/icons";
 
 const ProjectListItemDetail = component$(() => (
@@ -22,9 +22,9 @@ export const ProjectListItem = component$(
         alignItems: "flex-start",
       }}
     >
-      <AnchorLink href={url} style={{ fontSize: "1.25em", fontWeight: 700 }}>
+      <Anchor href={url} style={{ fontSize: "1.25em", fontWeight: 700 }}>
         {name}
-      </AnchorLink>
+      </Anchor>
       <p style={{ margin: 0, marginTop: "0.5em", flex: 1, lineHeight: 1.5 }}>
         {description}
       </p>
