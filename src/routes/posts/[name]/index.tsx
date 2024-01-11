@@ -17,11 +17,10 @@ import { LabelValuePair } from "~/components/label-value-pair";
 import { AnchorLink } from "~/components/anchor-link";
 
 export const usePost = routeLoader$(async (requestEvent) => {
-  const { content, ...rest } = await Posts.get(requestEvent.params.name);
+  const post = await Posts.getByName(requestEvent.params.name);
   return {
-    content,
-    html: await Markdown.render(content),
-    ...rest,
+    ...post,
+    html: await Markdown.render(post.markdown),
   };
 });
 
@@ -163,21 +162,12 @@ const Subscribe = component$(() => {
 });
 
 export default component$(() => {
-  const postS = usePost();
-  const {
-    title,
-    description,
-    published,
-    discussionHref,
-    editHref,
-    content,
-    html,
-  } = postS.value;
+  const post = usePost();
   return (
     <main style={{ display: "flex", flexDirection: "column", gap: "2em" }}>
       <Jumbotron>
-        <span q:slot="headline">{title}</span>
-        <p style={{ marginBlock: 0 }}>{description}</p>
+        <span q:slot="headline">{post.value.title}</span>
+        <p style={{ marginBlock: 0 }}>{post.value.description}</p>
         <div
           style={css({
             display: "flex",
@@ -196,7 +186,7 @@ export default component$(() => {
               <ScreenReaderOnly>Posted date</ScreenReaderOnly>
             </div>
             <span q:slot="value">
-              {published.toLocaleDateString(undefined, {
+              {post.value.published.toLocaleDateString(undefined, {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -209,17 +199,22 @@ export default component$(() => {
               <ScreenReaderOnly>Reading time</ScreenReaderOnly>
             </div>
             <span q:slot="value">
-              {`${Math.ceil(readingTime(content).minutes)} minutes`}
+              {`${Math.ceil(readingTime(post.value.markdown).minutes)} minutes`}
             </span>
           </LabelValuePair>
         </div>
       </Jumbotron>
       <BlockSection>
-        <div style={{ lineHeight: 1.5 }} dangerouslySetInnerHTML={html} />
+        <div
+          style={{ lineHeight: 1.5 }}
+          dangerouslySetInnerHTML={post.value.html}
+        />
         <div style={{ display: "flex", gap: "0.5em", marginBlockStart: "2em" }}>
-          <AnchorLink href={discussionHref}>Discuss this post</AnchorLink>
+          <AnchorLink href={post.value.discussionHref}>
+            Discuss this post
+          </AnchorLink>
           <span style={{ color: V.gray50 }}>|</span>
-          <AnchorLink href={editHref}>Suggest an edit</AnchorLink>
+          <AnchorLink href={post.value.editHref}>Suggest an edit</AnchorLink>
         </div>
       </BlockSection>
       <BlockSection>

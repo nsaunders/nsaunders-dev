@@ -4,12 +4,11 @@ import {
   component$,
   Slot,
 } from "@builder.io/qwik";
-import { Link } from "@builder.io/qwik-city";
 import clsx from "clsx";
 import * as V from "varsace";
 import { css } from "~/css";
 
-type Props = Omit<PropsOf<typeof Link>, "style"> & {
+type Props = Omit<PropsOf<"a">, "style"> & {
   selected?: boolean;
   style?: CSSProperties;
 };
@@ -52,11 +51,11 @@ export const anchorLinkStyle = ({ style: overrides = {} }: Props = {}) =>
   );
 
 export const AnchorLink = component$((props: Props) => (
-  <Link
+  <a
     {...props}
     class={clsx(props.class, props.selected && "selected")}
     style={anchorLinkStyle(props)}
   >
     <Slot />
-  </Link>
+  </a>
 ));

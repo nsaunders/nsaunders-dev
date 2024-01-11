@@ -48,6 +48,47 @@ export async function list() {
     .toArray();
 }
 
+export async function getFeatured() {
+  const projects = await list();
+  const stories = await listStories();
+  const project = projects.find((p) =>
+    stories.some((s) => p.owner === s.owner && p.name === s.name)
+  );
+  if (project) {
+    const res = await fetch(
+      `https://raw.githubusercontent.com/nsaunders/writing/master/projects/${project.owner}/${project.name}.md`
+    );
+    if (!res.ok) {
+      throw new Error(
+        `An error occurred while fetching the story for ${project.owner}/${project.name}: ${res.statusText}`
+      );
+    }
+    const story = await res.text();
+    return { ...project, story };
+  }
+}
+
+async function listStories() {
+  const res = await fetch(
+    `https://api.github.com/repos/${username}/writing/git/trees/master?recursive=true`
+  );
+  const json = await res.json();
+
+  const { tree } = z
+    .object({ tree: z.array(z.object({ path: z.string() })) })
+    .parse(json);
+
+  return z.array(z.object({ name: z.string(), owner: z.string() })).parse(
+    tree
+      .map(({ path }) => (path.match(/^projects\/(.+)\.md$/) || [])[1])
+      .filter((x) => x)
+      .map((x) => {
+        const [owner, name] = x.split("/");
+        return { owner, name };
+      })
+  );
+}
+
 /*
 const getStory = ({ owner, name }: { owner: string; name: string }) =>
   Http.request
@@ -86,3 +127,9 @@ export const getFeatured = () =>
   });
 
   */
+
+export async function getStories() {
+  const res = await fetch(
+    "https://api.github.com/repos/nsaunders/writing/contents/projects"
+  );
+}
