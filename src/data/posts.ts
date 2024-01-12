@@ -1,10 +1,11 @@
 import { z } from "@builder.io/qwik-city";
 import matter from "gray-matter";
+import * as GH from "./github";
 
-export async function list({ accessToken }: { accessToken: string }) {
+export async function list(ctx: Parameters<typeof GH.configureRequest>[1]) {
   const res = await fetch(
     "https://api.github.com/repos/nsaunders/writing/contents/posts",
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+    GH.configureRequest({}, ctx)
   );
   if (!res.ok) {
     throw new Error("An error occurred while fetching the list of posts.");
@@ -16,14 +17,12 @@ export async function list({ accessToken }: { accessToken: string }) {
     .filter(({ name }) => !name.includes("."));
 }
 
-export async function listWithDetails({
-  accessToken,
-}: {
-  accessToken: string;
-}) {
-  const posts = await list({ accessToken });
+export async function listWithDetails(
+  ctx: Parameters<typeof GH.configureRequest>[1]
+) {
+  const posts = await list(ctx);
   let postsWithDetails = await Promise.all(
-    posts.map(({ name }) => getByName(name, { accessToken }))
+    posts.map(({ name }) => getByName(name, ctx))
   );
   if (process.env.NODE_ENV !== "development") {
     const now = new Date();
@@ -38,11 +37,11 @@ export async function listWithDetails({
 
 export async function getByName(
   name: string,
-  { accessToken }: { accessToken: string }
+  ctx: Parameters<typeof GH.configureRequest>[1]
 ) {
   const res = await fetch(
     `https://raw.githubusercontent.com/nsaunders/writing/master/posts/${name}/index.md`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+    GH.configureRequest({}, ctx)
   );
   if (!res.ok) {
     throw new Error(`Request for post "${name}" failed: ${res.statusText}`);
@@ -66,7 +65,23 @@ export async function getByName(
   };
 }
 
-export async function getLatest({ accessToken }: { accessToken: string }) {
-  const [post] = await listWithDetails({ accessToken });
+export async function getLatest(ctx: Parameters<typeof listWithDetails>[0]) {
+  const [post] = await listWithDetails(ctx);
   return (post as typeof post | undefined) ? post : null;
+}
+
+export async function getResource(
+  { name, path }: { name: string; path: string },
+  ctx: Parameters<typeof GH.configureRequest>[1]
+) {
+  const res = await fetch(
+    `https://github.com/nsaunders/writing/raw/master/posts/${name}/${path}`,
+    GH.configureRequest({}, ctx)
+  );
+  if (!res.ok) {
+    throw new Error(
+      `An error occurred while fetching resource "${path}" for post "${name}": ${res.statusText}`
+    );
+  }
+  return res.body;
 }

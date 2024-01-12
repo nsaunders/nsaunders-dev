@@ -1,12 +1,14 @@
+import * as GH from "./github";
+
 const username = "nsaunders";
 
 export async function getByName(
   name: string,
-  { accessToken }: { accessToken: string }
+  ctx: Parameters<typeof GH.configureRequest>[1]
 ) {
   const res = await fetch(
     `https://raw.githubusercontent.com/${username}/writing/master/pages/${name}/index.md`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+    GH.configureRequest({}, ctx)
   );
   if (!res.ok) {
     throw new Error(

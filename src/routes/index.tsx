@@ -1,5 +1,5 @@
 import { type JSXNode, component$ } from "@builder.io/qwik";
-import { routeLoader$, type DocumentHead, z } from "@builder.io/qwik-city";
+import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
 import * as V from "varsace";
 import { Anchor } from "~/components/anchor";
 import { BlockSection } from "~/components/block-section";
@@ -12,18 +12,8 @@ import { css } from "~/css";
 import * as Posts from "~/data/posts";
 import * as Projects from "~/data/projects";
 
-export const useLatestPost = routeLoader$(
-  async ({ env }) =>
-    await Posts.getLatest({
-      accessToken: z.string().parse(env.get("GH_ACCESS_TOKEN")),
-    })
-);
-export const useFeaturedProject = routeLoader$(
-  async ({ env }) =>
-    await Projects.getFeatured({
-      accessToken: z.string().parse(env.get("GH_ACCESS_TOKEN")),
-    })
-);
+export const useLatestPost = routeLoader$(Posts.getLatest);
+export const useFeaturedProject = routeLoader$(Projects.getFeatured);
 
 export default component$(() => {
   const latestPost = useLatestPost();

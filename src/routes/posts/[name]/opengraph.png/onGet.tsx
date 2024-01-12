@@ -1,7 +1,7 @@
 // @ts-ignore
 import onest from "@fontsource/onest/files/onest-latin-400-normal.woff?arraybuffer";
 
-import { z, type RequestHandler } from "@builder.io/qwik-city";
+import type { RequestHandler } from "@builder.io/qwik-city";
 import { renderToString } from "@builder.io/qwik/server";
 import satori from "satori";
 import { html as satoriHTML } from "satori-html";
@@ -9,15 +9,14 @@ import * as resvg from "@resvg/resvg-js";
 import * as V from "varsace";
 import * as Posts from "~/data/posts";
 
-const onGet: RequestHandler = async ({ params, env, send }) => {
-  const { name } = params;
-
+const onGet: RequestHandler = async (requestEvent) => {
   const width = 1200;
   const height = 630;
 
-  const { title, description } = await Posts.getByName(name, {
-    accessToken: z.string().parse(env.get("GH_ACCESS_TOKEN")),
-  });
+  const { title, description } = await Posts.getByName(
+    requestEvent.params.name,
+    requestEvent
+  );
 
   const { html } = await renderToString(
     <body>
@@ -76,7 +75,7 @@ const onGet: RequestHandler = async ({ params, env, send }) => {
 
   const image = await resvg.renderAsync(svg);
 
-  send(
+  requestEvent.send(
     new Response(image.asPng(), {
       status: 200,
       headers: {

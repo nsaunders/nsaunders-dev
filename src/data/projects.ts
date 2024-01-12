@@ -1,5 +1,6 @@
 import { z } from "@builder.io/qwik-city";
 import * as cheerio from "cheerio";
+import * as GH from "./github";
 
 const username = "nsaunders";
 
@@ -13,10 +14,11 @@ const projectSchema = z.object({
   forks: z.number(),
 });
 
-export async function list({ accessToken }: { accessToken: string }) {
-  const res = await fetch(`https://github.com/${username}`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
+export async function list(ctx: Parameters<typeof GH.configureRequest>[1]) {
+  const res = await fetch(
+    `https://github.com/${username}`,
+    GH.configureRequest({}, ctx)
+  );
   const $ = cheerio.load(await res.text());
   return $(".pinned-item-list-item-content")
     .map(function () {
@@ -50,18 +52,18 @@ export async function list({ accessToken }: { accessToken: string }) {
     .toArray();
 }
 
-export async function getFeatured({ accessToken }: { accessToken: string }) {
-  const projects = await list({ accessToken });
-  const stories = await listStories({ accessToken });
+export async function getFeatured(
+  ctx: Parameters<typeof GH.configureRequest>[1]
+) {
+  const projects = await list(ctx);
+  const stories = await listStories(ctx);
   const project = projects.find((p) =>
     stories.some((s) => p.owner === s.owner && p.name === s.name)
   );
   if (project) {
     const res = await fetch(
       `https://raw.githubusercontent.com/nsaunders/writing/master/projects/${project.owner}/${project.name}.md`,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }
+      GH.configureRequest({}, ctx)
     );
     if (!res.ok) {
       throw new Error(
@@ -73,10 +75,10 @@ export async function getFeatured({ accessToken }: { accessToken: string }) {
   }
 }
 
-async function listStories({ accessToken }: { accessToken: string }) {
+async function listStories(ctx: Parameters<typeof GH.configureRequest>[1]) {
   const res = await fetch(
     `https://api.github.com/repos/${username}/writing/git/trees/master?recursive=true`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+    GH.configureRequest({}, ctx)
   );
   const json = await res.json();
 

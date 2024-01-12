@@ -1,4 +1,4 @@
-import { z, type RequestHandler } from "@builder.io/qwik-city";
+import type { RequestHandler } from "@builder.io/qwik-city";
 import jsxtoxml from "jstoxml";
 import * as Posts from "~/data/posts";
 
@@ -52,14 +52,12 @@ const formatRFC822 = withFallback((date) => {
   return `${dayOfWeek}, ${day} ${month} ${year} ${hours}:${minutes}:${seconds} GMT`;
 });
 
-export const onGet: RequestHandler = async ({ headers, env, send }) => {
-  const posts = await Posts.listWithDetails({
-    accessToken: z.string().parse(env.get("GH_ACCESS_TOKEN")),
-  });
+export const onGet: RequestHandler = async (requestEvent) => {
+  const posts = await Posts.listWithDetails(requestEvent);
 
-  headers.set("Content-Type", "application/xml");
+  requestEvent.headers.set("Content-Type", "application/xml");
 
-  send(
+  requestEvent.send(
     200,
     jsxtoxml.toXML(
       {

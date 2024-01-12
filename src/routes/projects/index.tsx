@@ -1,17 +1,12 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$, z } from "@builder.io/qwik-city";
+import { routeLoader$ } from "@builder.io/qwik-city";
 import { BlockSection } from "~/components/block-section";
 import { ListItemEmphasis } from "~/components/list-item-emphasis";
 import { ListLayout } from "~/components/list-layout";
 import { ProjectListItem } from "~/components/project-list-item";
 import * as Projects from "~/data/projects";
 
-export const useProjects = routeLoader$(
-  async ({ env }) =>
-    await Projects.list({
-      accessToken: z.string().parse(env.get("GH_ACCESS_TOKEN")),
-    })
-);
+export const useProjects = routeLoader$(Projects.list);
 
 export default component$(() => {
   const projects = useProjects();

@@ -2,7 +2,6 @@ import { component$ } from "@builder.io/qwik";
 import {
   type StaticGenerateHandler,
   routeLoader$,
-  z,
 } from "@builder.io/qwik-city";
 import * as V from "varsace";
 import readingTime from "reading-time";
@@ -17,9 +16,7 @@ import { LabelValuePair } from "~/components/label-value-pair";
 import { Anchor } from "~/components/anchor";
 
 export const usePost = routeLoader$(async (requestEvent) => {
-  const post = await Posts.getByName(requestEvent.params.name, {
-    accessToken: z.string().parse(requestEvent.env.get("GH_ACCESS_TOKEN")),
-  });
+  const post = await Posts.getByName(requestEvent.params.name, requestEvent);
   return {
     ...post,
     html: await Markdown.render(post.markdown),
@@ -226,20 +223,7 @@ export default component$(() => {
   );
 });
 
-export const onStaticGenerate: StaticGenerateHandler = async () => {
-  const res = await fetch(
-    "https://api.github.com/repos/nsaunders/writing/contents/posts"
-  );
-  if (!res.ok) {
-    throw new Error("Failed to retrieve list of posts.");
-  }
-  const schema = z.array(
-    z.object({
-      name: z.string(),
-    })
-  );
-  const params = schema
-    .parse(await res.json())
-    .filter((x) => /^[a-z0-9-]+$/.test(x.name));
+export const onStaticGenerate: StaticGenerateHandler = async (ctx) => {
+  const params = await Posts.list(ctx);
   return { params };
 };
