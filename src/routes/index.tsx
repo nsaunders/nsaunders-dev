@@ -1,7 +1,7 @@
-import { type JSXNode, component$ } from "@builder.io/qwik";
+import { type JSXNode, component$, Fragment } from "@builder.io/qwik";
 import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
 import * as V from "varsace";
-import { Anchor } from "~/components/anchor";
+import { AnchorLink } from "~/components/anchor";
 import { BlockSection } from "~/components/block-section";
 import { Jumbotron } from "~/components/jumbotron";
 import { ListItemEmphasis } from "~/components/list-item-emphasis";
@@ -83,11 +83,11 @@ export default component$(() => {
               style={{ display: "flex", flexDirection: "column", gap: "1em" }}
             >
               {contentInner}
-              <Anchor href={viewMore}>View more&hellip;</Anchor>
+              <AnchorLink href={viewMore}>View more&hellip;</AnchorLink>
             </div>
           );
           return (
-            <>
+            <Fragment key={i}>
               {i
                 ? [
                     <hr
@@ -105,7 +105,7 @@ export default component$(() => {
                     content,
                   ]
                 : [content]}
-            </>
+            </Fragment>
           );
         })}
       </BlockSection>
