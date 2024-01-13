@@ -31,7 +31,7 @@ export async function list(ctx: Parameters<typeof GH.configureRequest>[1]) {
         .trim();
       const languageColor =
         $(this).find(".repo-language-color").css("background-color") || "black";
-      const languageName = $(this)
+      const languageName: unknown = $(this)
         .find("[itemProp='programmingLanguage']")
         .text()
         .trim();
@@ -95,4 +95,18 @@ async function listStories(ctx: Parameters<typeof GH.configureRequest>[1]) {
         return { owner, name };
       })
   );
+}
+
+export async function getStatsByOwnerAndName(owner: string, name: string) {
+  const res = await fetch(`https://api.github.com/repos/${owner}/${name}`);
+  if (!res.ok) {
+    throw new Error(
+      `Unable to fetch GitHub repository details for ${owner}/${name}: ${res.statusText}`
+    );
+  }
+  const json = await res.json();
+  const { forks_count: forks, stargazers_count: stars } = z
+    .object({ forks_count: z.number(), stargazers_count: z.number() })
+    .parse(json);
+  return { forks, stars };
 }

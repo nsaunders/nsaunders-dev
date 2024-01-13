@@ -1,6 +1,6 @@
-import { Slot, component$ } from "@builder.io/qwik";
+import { Slot, component$, useSignal, useOnWindow, $ } from "@builder.io/qwik";
 import { css } from "~/css";
-import type * as Projects from "~/data/projects";
+import * as Projects from "~/data/projects";
 import { Anchor } from "./anchor";
 import * as Icon from "~/components/icons";
 
@@ -13,55 +13,66 @@ const ProjectListItemDetail = component$(() => (
 type Props = Awaited<ReturnType<typeof Projects.list>>[number];
 
 export const ProjectListItem = component$(
-  ({ url, name, description, language, stars, forks }: Props) => (
-    <div
-      style={{
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "flex-start",
-      }}
-    >
-      <Anchor href={url} style={{ fontSize: "1.25em", fontWeight: 700 }}>
-        {name}
-      </Anchor>
-      <p style={{ margin: 0, marginTop: "0.5em", flex: 1, lineHeight: 1.5 }}>
-        {description}
-      </p>
+  ({ url, name, description, language, stars, forks, owner }: Props) => {
+    const stats = useSignal<{ stars: number; forks: number } | null>(null);
+    useOnWindow(
+      "load",
+      $(() =>
+        Projects.getStatsByOwnerAndName(owner, name).then((x) => {
+          stats.value = x;
+        })
+      )
+    );
+    return (
       <div
         style={{
+          height: "100%",
           display: "flex",
-          flexWrap: "wrap",
-          alignItems: "center",
-          gap: "1.25em",
-          marginTop: "2em",
+          flexDirection: "column",
+          alignItems: "flex-start",
         }}
       >
-        <ProjectListItemDetail>
-          <div
-            style={css({
-              width: "0.75em",
-              height: "0.75em",
-              borderRadius: "999px",
-              backgroundColor: language.color,
-              "@media (prefers-color-scheme: dark)": {
-                boxShadow: "0 0 0 1px rgba(255, 255, 255, 0.2)",
-              },
-            })}
-          />
-          {language.name}
-        </ProjectListItemDetail>
-        <ProjectListItemDetail>
-          <Icon.Star />
-          {stars}
-        </ProjectListItemDetail>
-        {!!forks && (
+        <Anchor href={url} style={{ fontSize: "1.25em", fontWeight: 700 }}>
+          {name}
+        </Anchor>
+        <p style={{ margin: 0, marginTop: "0.5em", flex: 1, lineHeight: 1.5 }}>
+          {description}
+        </p>
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            gap: "1.25em",
+            marginTop: "2em",
+          }}
+        >
           <ProjectListItemDetail>
-            <Icon.Fork />
-            {forks}
+            <div
+              style={css({
+                width: "0.75em",
+                height: "0.75em",
+                borderRadius: "999px",
+                backgroundColor: language.color,
+                "@media (prefers-color-scheme: dark)": {
+                  boxShadow: "0 0 0 1px rgba(255, 255, 255, 0.2)",
+                },
+              })}
+            />
+            {language.name}
           </ProjectListItemDetail>
-        )}
+          <ProjectListItemDetail>
+            <Icon.Star />
+            {stats.value ? stats.value.stars : stars}
+          </ProjectListItemDetail>
+          {!!forks && (
+            <ProjectListItemDetail>
+              <Icon.Fork />
+              {stats.value ? stats.value.forks : forks}
+            </ProjectListItemDetail>
+          )}
+        </div>
       </div>
-    </div>
-  )
+    );
+  }
 );
