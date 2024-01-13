@@ -12,14 +12,14 @@ html {
 
 .shiki,
 .shiki span {
-  font-family: "Inconsolata Variable", monospace !important;
+  font-family: "Inconsolata Variable", monospace;
   color: var(--hook-light, var(--shiki-light))
-    var(--hook-dark, var(--shiki-dark)) !important;
-  background-color: transparent !important;
+    var(--hook-dark, var(--shiki-dark));
+  background-color: transparent;
   font-style: var(--hook-light, var(--shiki-light-font-style))
-    var(--hook-dark, var(--shiki-dark-font-style)) !important;
+    var(--hook-dark, var(--shiki-dark-font-style));
   font-weight: var(--hook-light, var(--shiki-light-font-weight))
-    var(--hook-dark, var(--shiki-dark-font-weight)) !important;
+    var(--hook-dark, var(--shiki-dark-font-weight));
   text-decoration: var(--hook-light, var(--shiki-light-text-decoration))
-    var(--hook-dark, var(--shiki-dark-text-decoration)) !important;
+    var(--hook-dark, var(--shiki-dark-text-decoration));
 }
