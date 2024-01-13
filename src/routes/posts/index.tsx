@@ -1,5 +1,5 @@
 import { Fragment, component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { type DocumentHead, routeLoader$ } from "@builder.io/qwik-city";
 import * as Posts from "~/data/posts";
 import * as V from "varsace";
 import { css } from "~/css";
@@ -9,6 +9,17 @@ import { ListLayout } from "~/components/list-layout";
 import { BlockSection } from "~/components/block-section";
 
 export const usePosts = routeLoader$(Posts.listWithDetails);
+
+export const head: DocumentHead = {
+  title: "Blog",
+  meta: [
+    {
+      name: "description",
+      content:
+        "My thoughts on React, TypeScript, frontend development, and software engineering in general",
+    },
+  ],
+};
 
 export default component$(() => {
   const posts = usePosts();

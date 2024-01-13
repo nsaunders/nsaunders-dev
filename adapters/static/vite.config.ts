@@ -14,7 +14,7 @@ export default extendConfig(baseConfig, () => {
     plugins: [
       arrayBuffer(),
       staticAdapter({
-        origin: "https://yoursite.qwik.dev",
+        origin: "https://nsaunders.dev",
       }),
     ],
   };

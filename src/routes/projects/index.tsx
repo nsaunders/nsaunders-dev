@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { type DocumentHead, routeLoader$ } from "@builder.io/qwik-city";
 import { BlockSection } from "~/components/block-section";
 import { ListItemEmphasis } from "~/components/list-item-emphasis";
 import { ListLayout } from "~/components/list-layout";
@@ -7,6 +7,17 @@ import { ProjectListItem } from "~/components/project-list-item";
 import * as Projects from "~/data/projects";
 
 export const useProjects = routeLoader$(Projects.list);
+
+export const head: DocumentHead = {
+  title: "Projects",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Overview of my programming projects and open-source contributions",
+    },
+  ],
+};
 
 export default component$(() => {
   const projects = useProjects();

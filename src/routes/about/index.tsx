@@ -1,5 +1,5 @@
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
+import { type DocumentHead, routeLoader$ } from "@builder.io/qwik-city";
 import * as Markdown from "~/markdown";
 import * as Pages from "~/data/pages";
 import { Jumbotron } from "~/components/jumbotron";
@@ -10,6 +10,17 @@ export const usePage = routeLoader$(async (requestEvent) => {
   const html = await Markdown.render(page.markdown);
   return { ...page, html };
 });
+
+export const head: DocumentHead = {
+  title: "About",
+  meta: [
+    {
+      name: "description",
+      content:
+        "Overview of my programming journey, technical background, and guiding principles",
+    },
+  ],
+};
 
 export default component$(() => {
   const page = usePage();

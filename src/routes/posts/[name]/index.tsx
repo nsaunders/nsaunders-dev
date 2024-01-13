@@ -1,6 +1,7 @@
 import { component$ } from "@builder.io/qwik";
 import {
   type StaticGenerateHandler,
+  type DocumentHead,
   routeLoader$,
 } from "@builder.io/qwik-city";
 import * as V from "varsace";
@@ -22,6 +23,85 @@ export const usePost = routeLoader$(async (requestEvent) => {
     html: await Markdown.render(post.markdown),
   };
 });
+
+export const head: DocumentHead = ({ resolveValue, url }) => {
+  const { title, description } = resolveValue(usePost);
+  return {
+    title,
+    meta: [
+      { name: "description", content: description },
+      { property: "og:image", content: `${url}opengraph.png` },
+    ],
+  };
+};
+
+export default component$(() => {
+  const post = usePost();
+  return (
+    <main style={{ display: "flex", flexDirection: "column", gap: "2em" }}>
+      <Jumbotron>
+        <span q:slot="headline">{post.value.title}</span>
+        <p style={{ marginBlock: 0 }}>{post.value.description}</p>
+        <div
+          style={css({
+            display: "flex",
+            gap: "2em",
+            fontSize: "0.75em",
+            marginTop: "1em",
+            color: V.gray60,
+            "@media (prefers-color-scheme: dark)": {
+              color: V.gray30,
+            },
+          })}
+        >
+          <LabelValuePair>
+            <div q:slot="label" style={{ display: "contents" }}>
+              <Icon.Calendar aria-hidden />
+              <ScreenReaderOnly>Posted date</ScreenReaderOnly>
+            </div>
+            <span q:slot="value">
+              {post.value.published.toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
+          </LabelValuePair>
+          <LabelValuePair>
+            <div q:slot="label" style={{ display: "contents" }}>
+              <Icon.Clock aria-hidden />
+              <ScreenReaderOnly>Reading time</ScreenReaderOnly>
+            </div>
+            <span q:slot="value">
+              {`${Math.ceil(readingTime(post.value.markdown).minutes)} minutes`}
+            </span>
+          </LabelValuePair>
+        </div>
+      </Jumbotron>
+      <BlockSection>
+        <div
+          style={{ lineHeight: 1.5 }}
+          dangerouslySetInnerHTML={post.value.html}
+        />
+        <div style={{ display: "flex", gap: "0.5em", marginBlockStart: "2em" }}>
+          <Anchor href={post.value.discussionHref}>Discuss this post</Anchor>
+          <span style={{ color: V.gray50 }}>|</span>
+          <Anchor href={post.value.editHref}>Suggest an edit</Anchor>
+        </div>
+      </BlockSection>
+      <BlockSection>
+        <div style={{ padding: "2em 0" }}>
+          <Subscribe />
+        </div>
+      </BlockSection>
+    </main>
+  );
+});
+
+export const onStaticGenerate: StaticGenerateHandler = async (ctx) => {
+  const params = await Posts.list(ctx);
+  return { params };
+};
 
 const Subscribe = component$(() => {
   const flex = "1 1 calc((60ch - 100%) * 999)";
@@ -159,71 +239,3 @@ const Subscribe = component$(() => {
     </section>
   );
 });
-
-export default component$(() => {
-  const post = usePost();
-  return (
-    <main style={{ display: "flex", flexDirection: "column", gap: "2em" }}>
-      <Jumbotron>
-        <span q:slot="headline">{post.value.title}</span>
-        <p style={{ marginBlock: 0 }}>{post.value.description}</p>
-        <div
-          style={css({
-            display: "flex",
-            gap: "2em",
-            fontSize: "0.75em",
-            marginTop: "1em",
-            color: V.gray60,
-            "@media (prefers-color-scheme: dark)": {
-              color: V.gray30,
-            },
-          })}
-        >
-          <LabelValuePair>
-            <div q:slot="label" style={{ display: "contents" }}>
-              <Icon.Calendar aria-hidden />
-              <ScreenReaderOnly>Posted date</ScreenReaderOnly>
-            </div>
-            <span q:slot="value">
-              {post.value.published.toLocaleDateString(undefined, {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </span>
-          </LabelValuePair>
-          <LabelValuePair>
-            <div q:slot="label" style={{ display: "contents" }}>
-              <Icon.Clock aria-hidden />
-              <ScreenReaderOnly>Reading time</ScreenReaderOnly>
-            </div>
-            <span q:slot="value">
-              {`${Math.ceil(readingTime(post.value.markdown).minutes)} minutes`}
-            </span>
-          </LabelValuePair>
-        </div>
-      </Jumbotron>
-      <BlockSection>
-        <div
-          style={{ lineHeight: 1.5 }}
-          dangerouslySetInnerHTML={post.value.html}
-        />
-        <div style={{ display: "flex", gap: "0.5em", marginBlockStart: "2em" }}>
-          <Anchor href={post.value.discussionHref}>Discuss this post</Anchor>
-          <span style={{ color: V.gray50 }}>|</span>
-          <Anchor href={post.value.editHref}>Suggest an edit</Anchor>
-        </div>
-      </BlockSection>
-      <BlockSection>
-        <div style={{ padding: "2em 0" }}>
-          <Subscribe />
-        </div>
-      </BlockSection>
-    </main>
-  );
-});
-
-export const onStaticGenerate: StaticGenerateHandler = async (ctx) => {
-  const params = await Posts.list(ctx);
-  return { params };
-};
