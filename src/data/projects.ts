@@ -29,7 +29,7 @@ export async function list(ctx: Parameters<typeof GH.configureRequest>[1]) {
         .find(".pinned-item-desc")
         .text()
         .trim();
-      const languageColor =
+      const languageColor: unknown =
         $(this).find(".repo-language-color").css("background-color") || "black";
       const languageName: unknown = $(this)
         .find("[itemProp='programmingLanguage']")
