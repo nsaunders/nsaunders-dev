@@ -4,6 +4,7 @@ import { BlockSection } from "~/components/block-section";
 import { ListItemEmphasis } from "~/components/list-item-emphasis";
 import { ListLayout } from "~/components/list-layout";
 import { ProjectListItem } from "~/components/project-list-item";
+import { css } from "~/css";
 import * as Projects from "~/data/projects";
 
 export const useProjects = routeLoader$(Projects.list);
@@ -23,7 +24,12 @@ export default component$(() => {
   const projects = useProjects();
 
   return (
-    <main style={{ margin: "4em" }}>
+    <main
+      style={css({
+        margin: "4em 0",
+        "@media (width < 640px)": { margin: "2em 0" },
+      })}
+    >
       <BlockSection>
         <ListLayout title="Projects">
           <ul

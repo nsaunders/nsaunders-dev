@@ -25,9 +25,12 @@ export default component$(() => {
   const posts = usePosts();
   return (
     <main
-      style={{
-        padding: "4rem",
-      }}
+      style={css({
+        margin: "4em 0",
+        "@media (width < 640px)": {
+          margin: "2em 0",
+        },
+      })}
     >
       <BlockSection
         style={{
