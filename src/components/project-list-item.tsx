@@ -1,4 +1,4 @@
-import { Slot, component$, useSignal, useOnWindow, $ } from "@builder.io/qwik";
+import { Slot, component$, useSignal } from "@builder.io/qwik";
 import { css } from "~/css";
 import * as Projects from "~/data/projects";
 import { Anchor } from "./anchor";
@@ -15,14 +15,6 @@ type Props = Awaited<ReturnType<typeof Projects.list>>[number];
 export const ProjectListItem = component$(
   ({ url, name, description, language, stars, forks, owner }: Props) => {
     const stats = useSignal<{ stars: number; forks: number } | null>(null);
-    useOnWindow(
-      "load",
-      $(() =>
-        Projects.getStatsByOwnerAndName(owner, name).then((x) => {
-          stats.value = x;
-        })
-      )
-    );
     return (
       <div
         style={{
@@ -37,6 +29,18 @@ export const ProjectListItem = component$(
         </Anchor>
         <p style={{ margin: 0, marginTop: "0.5em", flex: 1, lineHeight: 1.5 }}>
           {description}
+          {import.meta.env.PROD ? (
+            <img
+              src=""
+              width={0}
+              height={0}
+              onError$={() =>
+                Projects.getStatsByOwnerAndName(owner, name).then((x) => {
+                  stats.value = x;
+                })
+              }
+            />
+          ) : undefined}
         </p>
         <div
           style={{
