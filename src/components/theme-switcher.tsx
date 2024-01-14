@@ -12,6 +12,7 @@ export const ThemeSwitcher = component$(() => (
         display: "inline-flex",
         position: "relative",
         width: "3em",
+        height: "calc(11em / 8)",
         borderRadius: "999px",
         color: V.white,
         background: V.purple60,
