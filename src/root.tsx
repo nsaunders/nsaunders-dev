@@ -55,13 +55,7 @@ export default component$(() => {
           lineHeight: 1.25,
           background: V.white,
           color: V.black,
-          "@media (prefers-color-scheme: light)": {
-            "--hook-light": "initial",
-            "--hook-dark": "",
-          },
           "@media (prefers-color-scheme: dark)": {
-            "--hook-light": "",
-            "--hook-dark": "initial",
             background: V.gray90,
             color: V.white,
           },
