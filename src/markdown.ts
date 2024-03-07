@@ -82,34 +82,34 @@ async function getRenderer(): Promise<RendererObject> {
         )}" class="group" style="${renderToString({
           ...[
             {
-              fontSize: "calc(15em / 6)",
+              fontSize: "3rem",
               fontWeight: 400,
-              marginBlock: "0.25em",
+              marginBlock: "1.25rem",
             },
             {
-              fontSize: "calc(13em / 6)",
+              fontSize: "2.601rem",
               fontWeight: 400,
-              marginBlock: "calc(14em * (3 / 104))",
+              marginBlock: "1.5rem",
             },
             {
-              fontSize: "calc(11em / 6)",
+              fontSize: "2.2rem",
               fontWeight: 400,
-              marginBlock: "calc(27em / 44)",
+              marginBlock: "1.75rem",
             },
             {
-              fontSize: "calc(5em / 3)",
+              fontSize: "1.8rem",
               fontWeight: 400,
-              marginBlock: "0.75em",
+              marginBlock: "2rem",
             },
             {
-              fontSize: "calc(3em / 2)",
+              fontSize: "1.4rem",
               fontWeight: 400,
-              marginBlock: "calc(11em / 12)",
+              marginBlock: "2.25rem",
             },
             {
-              fontSize: "calc(4em / 3)",
+              fontSize: "1rem",
               fontWeight: 400,
-              marginBlock: "calc(9em / 8)",
+              marginBlock: "2.5rem",
             },
           ][level - 1],
           lineHeight: 1.25,
