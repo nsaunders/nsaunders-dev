@@ -60,7 +60,7 @@
     "undici": "^5.28.3",
     "varsace": "^0.2.1",
     "vite": "^5.1.5",
-    "vite-plugin-arraybuffer": "^0.0.2",
+    "vite-plugin-arraybuffer": "^0.0.6",
     "vite-tsconfig-paths": "^4.3.1"
   }
 }
