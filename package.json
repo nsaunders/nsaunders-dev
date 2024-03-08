@@ -55,7 +55,7 @@
     "satori": "^0.10.13",
     "satori-html": "^0.3.2",
     "shikiji": "^0.9.19",
-    "slug": "^8.2.3",
+    "slug": "^9.0.0",
     "typescript": "^5.4.2",
     "undici": "^6.0.0",
     "varsace": "^0.2.1",
