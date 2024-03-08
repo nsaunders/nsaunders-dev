@@ -57,7 +57,7 @@
     "shikiji": "^0.9.19",
     "slug": "^8.2.3",
     "typescript": "^5.4.2",
-    "undici": "^5.28.3",
+    "undici": "^6.0.0",
     "varsace": "^0.2.1",
     "vite": "^5.1.5",
     "vite-plugin-arraybuffer": "^0.0.6",
