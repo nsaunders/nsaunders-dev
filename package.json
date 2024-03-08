@@ -49,7 +49,7 @@
     "eslint-plugin-qwik": "^1.5.1",
     "gray-matter": "^4.0.3",
     "jstoxml": "^3.2.10",
-    "marked": "^11.2.0",
+    "marked": "^12.0.0",
     "prettier": "^3.2.5",
     "reading-time": "~1.4",
     "satori": "^0.10.13",
