@@ -18,9 +18,11 @@ export const PageHeader = component$(() => {
         gap: "1em",
         background: V.gray05,
         padding: "0.25em 1em",
-        "@media (prefers-color-scheme: dark)": {
-          background: V.gray80,
-        },
+        on: $ => [
+          $("@media (prefers-color-scheme: dark)", {
+            background: V.gray80,
+          }),
+        ],
       })}
     >
       <AnchorLink
@@ -29,9 +31,11 @@ export const PageHeader = component$(() => {
           fontFamily: "'Montserrat Variable'",
           textTransform: "uppercase",
           fontSize: "1.6em",
-          "@media (width < 640px)": {
-            fontSize: 0,
-          },
+          on: $ => [
+            $("@media (width < 640px)", {
+              fontSize: 0,
+            }),
+          ],
         })}
         selected
       >
@@ -43,14 +47,22 @@ export const PageHeader = component$(() => {
             width: 32,
             height: 32,
             display: "none",
-            "@media (width < 640px)": { display: "unset" },
+            on: $ => [
+              $("@media (width < 640px)", {
+                display: "unset",
+              }),
+            ],
           })}
         />
         {/* eslint-enable qwik/jsx-img */}
         <span
           style={css({
             display: "inline",
-            "@media (width < 640px)": { display: "none" },
+            on: $ => [
+              $("@media (width < 640px)", {
+                display: "none",
+              }),
+            ],
           })}
         >
           Nick Saunders
@@ -80,7 +92,11 @@ export const PageHeader = component$(() => {
           width: "1px",
           height: "2rem",
           background: V.gray20,
-          "@media (prefers-color-scheme: dark)": { background: V.gray60 },
+          on: $ => [
+            $("@media (prefers-color-scheme: dark)", {
+              background: V.gray60,
+            }),
+          ],
         })}
       />{" "}
       <ThemeSwitcher />

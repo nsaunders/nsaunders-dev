@@ -26,9 +26,11 @@ export const PostListItem = component$(
           display: "flex",
           gap: "0.5em",
           color: V.gray60,
-          "@media (prefers-color-scheme: dark)": {
-            color: V.gray30,
-          },
+          on: $ => [
+            $("@media (prefers-color-scheme: dark)", {
+              color: V.gray30,
+            }),
+          ],
         })}
       >
         <span>
@@ -45,5 +47,5 @@ export const PostListItem = component$(
       </AnchorLink>
       <div style={{ lineHeight: 1.5 }}>{description}</div>
     </div>
-  )
+  ),
 );

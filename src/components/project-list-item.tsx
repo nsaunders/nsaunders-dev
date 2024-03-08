@@ -35,7 +35,7 @@ export const ProjectListItem = component$(
               width={0}
               height={0}
               onError$={() =>
-                Projects.getStatsByOwnerAndName(owner, name).then((x) => {
+                Projects.getStatsByOwnerAndName(owner, name).then(x => {
                   stats.value = x;
                 })
               }
@@ -58,9 +58,11 @@ export const ProjectListItem = component$(
                 height: "0.75em",
                 borderRadius: "999px",
                 backgroundColor: language.color,
-                "@media (prefers-color-scheme: dark)": {
-                  boxShadow: "0 0 0 1px rgba(255, 255, 255, 0.2)",
-                },
+                on: $ => [
+                  $("@media (prefers-color-scheme: dark)", {
+                    boxShadow: "0 0 0 1px rgba(255, 255, 255, 0.2)",
+                  }),
+                ],
               })}
             />
             {language.name}
@@ -78,5 +80,5 @@ export const ProjectListItem = component$(
         </div>
       </div>
     );
-  }
+  },
 );

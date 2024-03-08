@@ -9,7 +9,7 @@ import {
 import * as V from "varsace";
 import { RouterHead } from "~/components/router-head";
 import * as Theme from "~/theme";
-import { css, hooks } from "~/css";
+import { css, styleSheet } from "~/css";
 
 export default component$(() => {
   return (
@@ -25,7 +25,7 @@ export default component$(() => {
               document.documentElement.setAttribute("data-theme", theme);
               window.addEventListener("load", function() {
                 var switcher = document.getElementById(${JSON.stringify(
-                  Theme.switcherId
+                  Theme.switcherId,
                 )});
                 if (switcher instanceof HTMLSelectElement) {
                   switcher.value = theme;
@@ -39,7 +39,7 @@ export default component$(() => {
             })()
           `}
         />
-        <style dangerouslySetInnerHTML={hooks} />
+        <style dangerouslySetInnerHTML={styleSheet()} />
         <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.json" />
         <RouterHead />
@@ -55,10 +55,12 @@ export default component$(() => {
           lineHeight: 1.25,
           background: V.white,
           color: V.black,
-          "@media (prefers-color-scheme: dark)": {
-            background: V.gray90,
-            color: V.white,
-          },
+          on: $ => [
+            $("@media (prefers-color-scheme: dark)", {
+              background: V.gray90,
+              color: V.white,
+            }),
+          ],
         })}
       >
         <RouterOutlet />

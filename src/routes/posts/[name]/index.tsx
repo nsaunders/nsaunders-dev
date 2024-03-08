@@ -16,7 +16,7 @@ import { ScreenReaderOnly } from "~/components/screen-reader-only";
 import { LabelValuePair } from "~/components/label-value-pair";
 import { Anchor } from "~/components/anchor";
 
-export const usePost = routeLoader$(async (requestEvent) => {
+export const usePost = routeLoader$(async requestEvent => {
   const post = await Posts.getByName(requestEvent.params.name, requestEvent);
   return {
     ...post,
@@ -49,9 +49,11 @@ export default component$(() => {
             fontSize: "0.75em",
             marginTop: "1em",
             color: V.gray60,
-            "@media (prefers-color-scheme: dark)": {
-              color: V.gray30,
-            },
+            on: $ => [
+              $("@media (prefers-color-scheme: dark)", {
+                color: V.gray30,
+              }),
+            ],
           })}
         >
           <LabelValuePair>
@@ -98,7 +100,7 @@ export default component$(() => {
   );
 });
 
-export const onStaticGenerate: StaticGenerateHandler = async (ctx) => {
+export const onStaticGenerate: StaticGenerateHandler = async ctx => {
   const params = await Posts.list(ctx);
   return { params };
 };
@@ -191,9 +193,11 @@ const Subscribe = component$(() => {
                 outlineStyle: "solid",
                 outlineColor: V.blue50,
                 outlineOffset: "2px",
-                "&:focus-visible": {
-                  outlineWidth: "2px",
-                },
+                on: $ => [
+                  $("&:focus-visible", {
+                    outlineWidth: "2px",
+                  }),
+                ],
               })}
             />
           </label>
@@ -222,15 +226,17 @@ const Subscribe = component$(() => {
             outlineStyle: "solid",
             outlineColor: V.blue50,
             outlineOffset: "2px",
-            "&:focus-visible": {
-              outlineWidth: "2px",
-            },
-            "&:hover": {
-              background: V.blue40,
-            },
-            "&:active": {
-              background: V.red40,
-            },
+            on: $ => [
+              $("&:focus-visible", {
+                outlineWidth: "2px",
+              }),
+              $("&:hover", {
+                background: V.blue40,
+              }),
+              $("&:active", {
+                background: V.red40,
+              }),
+            ],
           })}
         >
           Subscribe

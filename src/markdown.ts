@@ -33,12 +33,14 @@ async function getRenderer(): Promise<RendererObject> {
           borderColor: V.pink20,
           color: V.gray70,
           background: V.gray05,
-          "@media (prefers-color-scheme: dark)": {
-            borderColor: V.pink60,
-            background: V.gray85,
-            color: V.gray30,
-          },
-        })
+          on: $ => [
+            $("@media (prefers-color-scheme: dark)", {
+              borderColor: V.pink60,
+              background: V.gray85,
+              color: V.gray30,
+            }),
+          ],
+        }),
       )}">${quote}</blockquote>`;
     },
     code(code, language, escaped) {
@@ -47,11 +49,15 @@ async function getRenderer(): Promise<RendererObject> {
           css({
             overflow: "auto",
             background: V.white,
-            "@media (prefers-color-scheme: light)": {
-              boxShadow: `inset 0 0 0 1px ${V.gray20}`,
-            },
-            "@media (prefers-color-scheme: dark)": { background: V.gray85 },
-          })
+            on: $ => [
+              $("@media (prefers-color-scheme: light)", {
+                boxShadow: `inset 0 0 0 1px ${V.gray20}`,
+              }),
+              $("@media (prefers-color-scheme: dark)", {
+                background: V.gray85,
+              }),
+            ],
+          }),
         )}">${codeToHtml(code, {
           lang: language,
           themes: {
@@ -78,7 +84,7 @@ async function getRenderer(): Promise<RendererObject> {
         level === 6
       ) {
         return `<h${level} id="${slug(
-          text
+          text,
         )}" class="group" style="${renderToString({
           ...[
             {
@@ -122,8 +128,12 @@ async function getRenderer(): Promise<RendererObject> {
           css({
             visibility: "hidden",
             width: "20px",
-            ".group:hover &": { visibility: "visible" },
-          })
+            on: $ => [
+              $(".group:hover &", {
+                visibility: "visible",
+              }),
+            ],
+          }),
         )}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></div></a><span>${text}</span></h${level}>`;
       }
       return false;

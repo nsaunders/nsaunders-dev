@@ -11,10 +11,14 @@ export const ListItemEmphasis = component$(({ style }: Props) => (
     style={css(
       {
         background: V.gray05,
-        "@media (prefers-color-scheme: dark)": { background: V.gray80 },
         padding: "2em",
+        on: $ => [
+          $("@media (prefers-color-scheme: dark)", {
+            background: V.gray80,
+          }),
+        ],
       },
-      style
+      style,
     )}
   >
     <Slot />

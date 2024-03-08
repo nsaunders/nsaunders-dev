@@ -24,31 +24,33 @@ export const anchorStyle = ({ style: overrides = {} }: Props = {}) =>
       outlineColor: V.blue20,
       outlineOffset: "2px",
       borderRadius: "2px",
-      "&:hover": {
-        color: V.blue50,
-        textDecoration: "underline",
-      },
-      "&:active": {
-        color: V.red50,
-      },
-      "@media (prefers-color-scheme: dark)": {
-        color: V.blue30,
-        outlineColor: V.blue50,
-        "&:hover": {
+      on: ($, { and }) => [
+        $("&:hover", {
+          color: V.blue50,
+          textDecoration: "underline",
+        }),
+        $("&:active", {
+          color: V.red50,
+        }),
+        $("@media (prefers-color-scheme: dark)", {
+          color: V.blue30,
+          outlineColor: V.blue50,
+        }),
+        $(and("@media (prefers-color-scheme: dark)", "&:hover"), {
           color: V.blue20,
-        },
-        "&:active": {
+        }),
+        $(and("@media (prefers-color-scheme: dark)", "&:active"), {
           color: V.red20,
-        },
-      },
-      "&:focus-visible": {
-        outlineWidth: "2px",
-      },
-      "&.selected": {
-        color: "inherit",
-      },
+        }),
+        $("&:focus-visible", {
+          outlineWidth: "2px",
+        }),
+        $("&.selected", {
+          color: "inherit",
+        }),
+      ],
     },
-    overrides
+    overrides,
   );
 
 export const Anchor = component$(
@@ -60,7 +62,7 @@ export const Anchor = component$(
     >
       <Slot />
     </a>
-  )
+  ),
 );
 
 export const AnchorLink = component$(
@@ -72,5 +74,5 @@ export const AnchorLink = component$(
     >
       <Slot />
     </Link>
-  )
+  ),
 );

@@ -9,10 +9,12 @@ export const Jumbotron = component$(() => (
       background: V.gray05,
       fontSize: "1.5em",
       padding: "1em 0 2em 0",
-      "@media (prefers-color-scheme: dark)": {
-        background: V.gray80,
-      },
       display: "flex",
+      on: $ => [
+        $("@media (prefers-color-scheme: dark)", {
+          background: V.gray80,
+        }),
+      ],
     })}
   >
     <BlockSection
@@ -25,10 +27,14 @@ export const Jumbotron = component$(() => (
       <h1
         style={css({
           color: V.purple50,
-          "@media (prefers-color-scheme: dark)": { color: V.orange20 },
           fontSize: "1.6em",
           fontWeight: 400,
           margin: 0,
+          on: $ => [
+            $("@media (prefers-color-scheme: dark)", {
+              color: V.orange20,
+            }),
+          ],
         })}
       >
         <Slot name="headline" />

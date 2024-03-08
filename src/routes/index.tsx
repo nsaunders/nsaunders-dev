@@ -59,9 +59,11 @@ export default component$(() => {
                       <ListItemEmphasis
                         style={css({
                           background: V.white,
-                          "@media (prefers-color-scheme: dark)": {
-                            background: V.gray70,
-                          },
+                          on: $ => [
+                            $("@media (prefers-color-scheme: dark)", {
+                              background: V.gray70,
+                            }),
+                          ],
                         })}
                       >
                         <ProjectListItem {...featuredProject.value} />
@@ -97,9 +99,11 @@ export default component$(() => {
                         width: "100%",
                         height: "1px",
                         background: V.gray20,
-                        "@media (prefers-color-scheme: dark)": {
-                          background: V.gray80,
-                        },
+                        on: $ => [
+                          $("@media (prefers-color-scheme: dark)", {
+                            background: V.gray80,
+                          }),
+                        ],
                       })}
                     />,
                     content,

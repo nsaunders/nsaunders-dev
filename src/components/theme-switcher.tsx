@@ -17,11 +17,13 @@ export const ThemeSwitcher = component$(() => (
         color: V.white,
         background: V.purple60,
         outlineColor: V.blue50,
-        "@media (prefers-color-scheme: dark)": {
-          background: V.yellow20,
-          outlineColor: V.blue20,
-          color: V.gray90,
-        },
+        on: $ => [
+          $("@media (prefers-color-scheme: dark)", {
+            background: V.yellow20,
+            outlineColor: V.blue20,
+            color: V.gray90,
+          }),
+        ],
       })}
     >
       <div
@@ -41,16 +43,22 @@ export const ThemeSwitcher = component$(() => (
             borderRadius: "999px",
             background: "currentColor",
             display: "block",
-            "@media (prefers-color-scheme: dark)": { display: "none" },
+            on: $ => [
+              $("@media (prefers-color-scheme: dark)", {
+                display: "none",
+              }),
+            ],
           })}
         />
         <div
           style={css({
             color: V.yellow25,
             display: "contents",
-            "@media (prefers-color-scheme: dark)": {
-              display: "none",
-            },
+            on: $ => [
+              $("@media (prefers-color-scheme: dark)", {
+                display: "none",
+              }),
+            ],
           })}
         >
           <Icon.Moon />
@@ -59,9 +67,11 @@ export const ThemeSwitcher = component$(() => (
           style={css({
             color: V.orange60,
             display: "contents",
-            "@media (prefers-color-scheme: light)": {
-              display: "none",
-            },
+            on: $ => [
+              $("@media (prefers-color-scheme: light)", {
+                display: "none",
+              }),
+            ],
           })}
         >
           <Icon.Sun />
@@ -73,7 +83,11 @@ export const ThemeSwitcher = component$(() => (
             borderRadius: "999px",
             background: "currentColor",
             display: "none",
-            "@media (prefers-color-scheme: dark)": { display: "block" },
+            on: $ => [
+              $("@media (prefers-color-scheme: dark)", {
+                display: "block",
+              }),
+            ],
           })}
         />
       </div>
@@ -93,15 +107,17 @@ export const ThemeSwitcher = component$(() => (
           outlineWidth: 0,
           outlineOffset: "2px",
           outlineColor: V.blue20,
-          "@media (prefers-color-scheme: dark)": {
-            outlineColor: V.blue50,
-          },
-          "&:focus-visible": {
-            outlineWidth: "2px",
-          },
+          on: $ => [
+            $("@media (prefers-color-scheme: dark)", {
+              outlineColor: V.blue50,
+            }),
+            $("&:focus-visible", {
+              outlineWidth: "2px",
+            }),
+          ],
         })}
       >
-        {Theme.options.map((option) => (
+        {Theme.options.map(option => (
           <option
             key={option}
             selected={option === Theme.defaultOption}

@@ -1,8 +1,11 @@
-import { createHooks, stringifyValue } from "@css-hooks/qwik";
+import {
+  createHooks,
+  _stringifyValue as stringifyValue,
+} from "@css-hooks/qwik";
 import { recommended } from "@css-hooks/recommended";
 
-export const [hooks, css] = createHooks(
-  {
+export const { styleSheet, css } = createHooks({
+  hooks: {
     ...recommended({
       breakpoints: ["640px"],
       pseudoClasses: [":active", ":focus-visible", ":hover"],
@@ -29,19 +32,20 @@ export const [hooks, css] = createHooks(
       ],
     },
   },
-  {
-    sort: true,
-  }
-);
+  sort: {
+    conditionalStyles: false,
+  },
+  debug: import.meta.env.DEV,
+});
 
 export function renderToString(obj: Parameters<typeof css>[0]) {
   return Object.entries(css(obj))
     .map(
       ([k, v]) =>
-        `${k.replace(/[A-Z]/g, (x) => `-${x.toLowerCase()}`)}:${stringifyValue(
+        `${/^--/.test(k) ? k : k.replace(/[A-Z]/g, x => `-${x.toLowerCase()}`)}:${stringifyValue(
           k,
-          v
-        )}`
+          v,
+        )}`,
     )
     .join(";");
 }

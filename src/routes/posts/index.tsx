@@ -27,9 +27,11 @@ export default component$(() => {
     <main
       style={css({
         margin: "4em 0",
-        "@media (width < 640px)": {
-          margin: "2em 0",
-        },
+        on: $ => [
+          $("@media (width < 640px)", {
+            margin: "2em 0",
+          }),
+        ],
       })}
     >
       <BlockSection
@@ -49,11 +51,13 @@ export default component$(() => {
                     style={css({
                       border: 0,
                       background: V.gray20,
-                      "@media (prefers-color-scheme: dark)": {
-                        background: V.gray80,
-                      },
                       width: "100%",
                       height: "1px",
+                      on: $ => [
+                        $("@media (prefers-color-scheme: dark)", {
+                          background: V.gray80,
+                        }),
+                      ],
                     })}
                   />
                   {content}

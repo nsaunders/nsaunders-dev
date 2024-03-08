@@ -10,12 +10,14 @@ export const PageFooter = component$(({ style }: Props) => (
     style={{
       ...css({
         background: V.gray05,
-        "@media (prefers-color-scheme: dark)": {
-          background: V.black,
-        },
         padding: "1em",
         display: "flex",
         gap: "1em",
+        on: $ => [
+          $("@media (prefers-color-scheme: dark)", {
+            background: V.black,
+          }),
+        ],
       }),
       ...style,
     }}

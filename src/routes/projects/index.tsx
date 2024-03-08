@@ -27,7 +27,11 @@ export default component$(() => {
     <main
       style={css({
         margin: "4em 0",
-        "@media (width < 640px)": { margin: "2em 0" },
+        on: ($) => [
+          $("@media (width < 640px)", {
+            margin: "2em 0",
+          }),
+        ],
       })}
     >
       <BlockSection>
