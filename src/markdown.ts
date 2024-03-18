@@ -1,5 +1,5 @@
 import { type RendererObject, marked } from "marked";
-import { getHighlighter } from "shikiji";
+import { getHighlighter } from "shiki";
 import slug from "slug";
 import { css, renderToString } from "~/css";
 import * as V from "varsace";
@@ -49,6 +49,8 @@ async function getRenderer(): Promise<RendererObject> {
           css({
             overflow: "auto",
             background: V.white,
+            fontFamily: "'Inconsolata Variable', monospace",
+            padding: "1rem 1.25rem",
             on: $ => [
               $("@media (prefers-color-scheme: light)", {
                 boxShadow: `inset 0 0 0 1px ${V.gray20}`,
